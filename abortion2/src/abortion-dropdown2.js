@@ -165,7 +165,7 @@ function Dropdown2(props) {
             </div>
           </div>
         </div>
-
+{/* 
         <div className={visibile}>
             <div className={props.darkcont}>
               <h2>Abortion Organization Info: </h2>
@@ -173,12 +173,12 @@ function Dropdown2(props) {
                 
               <li>
                     <p>{orgs} </p>
-                  </li>
-</div>
-</div>
-</div>
-        <div> <h1 className="talk"> Need someone to talk to? </h1></div>
-        < Chat />
+                  </li> */}
+{/* </div> */}
+{/* </div>
+</div> */}
+        {/* <div> <h1 className="talk"> Need someone to talk to? </h1></div>
+        < Chat /> */}
       </body>
     </>
   );
