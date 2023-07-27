@@ -76,6 +76,6 @@ def getAbortionClinics(state):
     response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data)
 
     content = json.loads(response.content)
-    reply = content['choices'][0]['message']['content']
+    reply = content
 
     return {'response': reply}
