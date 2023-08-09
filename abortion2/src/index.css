@@ -25,26 +25,25 @@ margin-left: 20px;
 .container{
   border-radius: 10px;
 }
-
+/* 
 .data{
   padding: 2rem;;
-}
+} */
 
 .tableform{
-  margin:2rem;
+  margin:auto;
 }
 
 form{
   margin-bottom: 2rem;
   margin-top:2rem;
-}
+} 
 
 .dark{
   width: 40px;
   height:40px;
   border-radius: 20px;
   background-color:#AEC6CF;
-  margin-right:65rem;
 }
 .dark:hover{
   background-color: #192841;
@@ -88,7 +87,6 @@ p{
   }
 
 .darkCont{
-  
     margin: auto;
     width:600px;
     border-style: solid;
@@ -101,6 +99,7 @@ p{
 }
 
 .forms{
+  margin:auto;
   background-color: #192841;
   width:350px;
   height:50px;
@@ -126,12 +125,56 @@ li{
 
 .invisible{
   visibility: hidden;
+  display:none;
 }
 
-.input-group{
+/* .input-group{
   margin-left:7rem;
-}
+} */
 
 .talk{
   margin-top: 3rem;
 }
+
+
+@media(max-width:645px){
+  .lightCont{
+    margin: auto;
+    margin-left: -4rem;
+    width:300px;
+    border-style: solid;
+    border-radius: 20px;
+    background-color: #AEC6CF;
+  }
+  
+.tableform{
+  margin:auto;
+  margin-left: -4rem;
+}
+  .darkCont{
+    margin: auto;
+    margin-left: -4rem;
+    width:300px;
+    border-style: solid;
+    border-radius: 20px;
+    background-color:#192841;
+    color:aliceblue;
+    /* padding: 20px; */
+  }
+  .forms{
+    margin:auto;
+    background-color: #192841;
+    width:200px;
+    height:50px;
+    border-radius: 5px;
+    color:aliceblue;
+    border-style:solid;
+    border-width: 2px;
+    border-color:aliceblue;
+    font-size: larger;
+  }
+.button{
+  font-size: small;
+}
+
+  }

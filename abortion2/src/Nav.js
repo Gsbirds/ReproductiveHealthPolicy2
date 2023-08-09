@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "./App.css";
 
+
 function Nav() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg">
@@ -8,7 +9,7 @@ function Nav() {
         <a className="navbar-brand" href="#">
           Reproductive Health Policy
         </a>
-        <button
+        {/* <button
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
@@ -18,8 +19,8 @@ function Nav() {
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        </button> */}
+        <div className="navbar" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li>
               <NavLink className="nav-link" aria-current="page" to="/">
