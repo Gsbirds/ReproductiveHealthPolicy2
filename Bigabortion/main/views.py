@@ -6,6 +6,10 @@ from .encoder import AbortionDataListEncoder,  AbortionDataDetailEncoder
 from .models import AbortionData
 from .acls import getAbortionData, getAbortionWaiting, getAbortionInsurance, getAbortionClinics
 # # Create your views here.
+from django.shortcuts import render
+
+def catch_all_view(request):
+    return render(request, 'frontend/build/index.html')
 
 def chat_index(request):
     return render(request, "chat/index.html")
@@ -59,5 +63,5 @@ def show_data_details(request, id):
             safe=False,
         )
     
-def redirect_to_page(request):
-    return redirect("home_page")
+# def redirect_to_page(request):
+#     return redirect("home_page")

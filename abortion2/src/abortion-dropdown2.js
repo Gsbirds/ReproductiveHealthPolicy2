@@ -29,7 +29,7 @@ function Dropdown2(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const salesUrl = `http://localhost:8000/abortion_data/api/data/${state}`;
+    const salesUrl = `https://glacial-shore-69830-91298bf010bb.herokuapp.com/abortion_data/api/data/${state}`;
    
     const response = await fetch(salesUrl);
     if (response.ok) {
@@ -78,7 +78,7 @@ function Dropdown2(props) {
   };
 
   const fetchData = async () => {
-    const url = "http://localhost:8000/abortion_data/api/data";
+    const url = "https://glacial-shore-69830-91298bf010bb.herokuapp.com/abortion_data/api/data";
 
     const response = await fetch(url);
 

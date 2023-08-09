@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+import os
 
 from pathlib import Path
 
@@ -23,11 +24,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$b-v%6zh!gr7z=e3vryc%$j_2@m=qlx0d_h*t)8z=re9%=_m)m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*.vercel.app","localhost","localhost:3000","localhost:8000"]
+STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'frontend','build', 'static'),
+]
 
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# ALLOWED_HOSTS = ["https://glacial-shore-69830-91298bf010bb.herokuapp.com/","*.vercel.app","localhost","localhost:3000","localhost:8000"]
+
+ALLOWED_HOSTS=["*"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,8 +54,10 @@ INSTALLED_APPS = [
 CSRF_TRUSTED_ORIGINS = ["http://localhost:3000","http://localhost:8000", "http://localhost"]
 
 CORS_ALLOW_CREDENTIALS = True
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MIDDLEWARE = [
+     'whitenoise.middleware.WhiteNoiseMiddleware',
      "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -58,6 +68,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CORS_ORIGIN_ALLOW_ALL = True   
 
@@ -74,7 +85,7 @@ ROOT_URLCONF = 'abortion.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,7 +151,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
