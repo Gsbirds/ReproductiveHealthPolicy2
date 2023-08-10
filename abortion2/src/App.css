@@ -84,7 +84,7 @@ form{
   width: 40px;
   height:40px;
   border-radius: 20px;
-  background-color:aliceblue;
+  border-style: 2px solid black;
 }
 .dark:hover{
   background-color: #192841;

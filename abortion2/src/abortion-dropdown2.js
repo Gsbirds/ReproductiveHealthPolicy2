@@ -43,6 +43,7 @@ function Dropdown2(props) {
         setFiles("No data");
       }
       if (data.data.policy.banned_after_weeks_since_LMP != null) {
+        
         setLMP(data.data.policy.banned_after_weeks_since_LMP);
       } else {
         setLMP("No data");
@@ -88,6 +89,20 @@ function Dropdown2(props) {
       console.log(data);
     }
   };
+    let message = LMP;
+  
+    if (LMP === 99) {
+      message = "Not banned until after viability";
+    } else if (LMP === 28) {
+      message = "Banned in the third trimester (25 weeks pregnant, 28 since last period)";
+    } else if (LMP === 22) {
+      message = "Banned after fertilization (22 weeks since last period)";
+    } else if (LMP === 24) {
+      message = "Banned after implantation (27 weeks since last period)";
+    } else if (LMP === 0) {
+      message = "Banned in totality";
+    }
+    
 
   useEffect(() => {
     fetchData();
@@ -135,12 +150,17 @@ function Dropdown2(props) {
                   <p>{files ? files : "Allows for any health reason"}</p>
                 </div>
                 <div>
-                  <h2>Banned After weeks since LMP:</h2>
-                  <p>{LMP}</p>
+                  <h2>Banned after weeks pregnant:</h2>
+              
+
+            <p>{message}</p>
+
+                 <p>
+                  </p>
                 </div>
                 <div>
                   <h2>Waiting period hours:</h2>{" "}
-                  <p> {waiting ? waiting + " hours" : "No waiting period"} </p>
+                  <p> {waiting ? waiting: "No waiting period"} </p>
                   <h2>Counseling visits required:</h2>{" "}
                   <p>{counsel ? counsel : "None required"}</p>
                 </div>
