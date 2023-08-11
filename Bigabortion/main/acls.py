@@ -15,7 +15,6 @@ def getAbortionData(state):
     url = f'https://api.abortionpolicyapi.com/v1/gestational_limits/states/'
 
     response = requests.get(url, params=params, headers=headers)
-    print("I MADE A REQUEST TO EXTERNAL PLACE")
     # content=response.json()
     content = json.loads(response.content)
 

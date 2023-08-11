@@ -16,7 +16,8 @@ function Dropdown2(props) {
   const [R, setR] = useState("");
   const [counsel, setCounsel] = useState("");
   const [visibile, setVisible] = useState("invisible");
-  const [orgs, setOrgs]=useState("")
+  const [orgs, setOrgs] = useState("")
+  const [date, setDate] = useState("")
 
   const handleOptionChange = (e) => {
     const value = e.target.value;
@@ -30,49 +31,62 @@ function Dropdown2(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const salesUrl = `https://glacial-shore-69830-91298bf010bb.herokuapp.com/abortion_data/api/data/${state}`;
-   
+
     const response = await fetch(salesUrl);
     if (response.ok) {
       setVisible("visibile");
       const data = await response.json();
       setOrgs(data.clinics.response)
       console.log(orgs)
-      if (data.data.policy.exception_health != null) {
-        setFiles(data.data.policy.exception_health);
+      if (data.data.policy == null) {
+        setLMP("")
+        setFiles("")
+        setWaiting("")
       } else {
-        setFiles("No data");
-      }
-      if (data.data.policy.banned_after_weeks_since_LMP != null) {
-        
-        setLMP(data.data.policy.banned_after_weeks_since_LMP);
-      } else {
-        setLMP("No data");
-      }
+        if (data.data.policy.exception_health != null) {
+          setFiles(data.data.policy.exception_health);
+        } else {
+          setFiles("No data");
+        }
+        if (data.data.policy.banned_after_weeks_since_LMP != null) {
 
-      if (data.waiting.policy != null) {
-        setWaiting(data.waiting.policy.waiting_period_hours);
-      } else {
-        setWaiting("No data");
-      }
-      if (data.waiting.policy != null) {
-        setCounsel(data.waiting.policy.counseling_visits);
-      } else {
-        setCounsel("No data");
-      }
-      if (data.insurance.policy != null) {
-        setInsurance(data.insurance.policy.medicaid_exception_life);
-      } else {
-        setInsurance("No data");
-      }
-      if (data.insurance.policy.exchange_exception_health != null) {
-        setHealth(data.insurance.policy.exchange_exception_health);
-      } else {
-        setHealth("No data");
-      }
-      if (data.insurance.policy.medicaid_exception_rape_or_incest != null) {
-        setR(data.insurance.policy.medicaid_exception_rape_or_incest);
-      } else {
-        setR("No data");
+          setLMP(data.data.policy.banned_after_weeks_since_LMP);
+        } else {
+          setLMP("No data");
+        }
+        if (data.data.policy['Last Updated'] != null) {
+
+          setDate(data.data.policy['Last Updated']);
+        } else {
+          setDate("No data");
+        }
+
+        if (data.waiting.policy != null) {
+          setWaiting(data.waiting.policy.waiting_period_hours);
+        } else {
+          setWaiting("No data");
+        }
+        if (data.waiting.policy != null) {
+          setCounsel(data.waiting.policy.counseling_visits);
+        } else {
+          setCounsel("No data");
+        }
+        if (data.insurance.policy != null) {
+          setInsurance(data.insurance.policy.medicaid_exception_life);
+        } else {
+          setInsurance("No data");
+        }
+        if (data.insurance.policy.exchange_exception_health != null) {
+          setHealth(data.insurance.policy.exchange_exception_health);
+        } else {
+          setHealth("No data");
+        }
+        if (data.insurance.policy.medicaid_exception_rape_or_incest != null) {
+          setR(data.insurance.policy.medicaid_exception_rape_or_incest);
+        } else {
+          setR("No data");
+        }
+
       }
 
     }
@@ -86,23 +100,28 @@ function Dropdown2(props) {
     if (response.ok) {
       const data = await response.json();
       setStates(data.abortion_data);
-      console.log(data);
     }
   };
-    let message = LMP;
-  
-    if (LMP === 99) {
-      message = "Not banned until after viability";
-    } else if (LMP === 28) {
-      message = "Banned in the third trimester (25 weeks pregnant, 28 since last period)";
-    } else if (LMP === 22) {
-      message = "Banned after fertilization (22 weeks since last period)";
-    } else if (LMP === 24) {
-      message = "Banned after implantation (27 weeks since last period)";
-    } else if (LMP === 0) {
-      message = "Banned in totality";
-    }
-    
+
+  let message = LMP;
+
+  if (LMP === 99) {
+    message = "Not banned until after viability";
+  } else if (LMP === 28) {
+    message = "Banned in the third trimester (25 weeks pregnant, 28 since last period)";
+  } else if (LMP === 22) {
+    message = "Banned after fertilization (22 weeks since last period)";
+  } else if (LMP === 24) {
+    message = "Banned after implantation (27 weeks since last period)";
+  } else if (LMP === 0) {
+    message = "Banned in totality";
+  }
+
+  const lastUpdatedString = date;
+const lastUpdatedDate = new Date(lastUpdatedString);
+
+const options = { year: 'numeric', month: 'long', day: 'numeric' };
+const formattedLastUpdated = lastUpdatedDate.toLocaleDateString('en-US', options);
 
   useEffect(() => {
     fetchData();
@@ -151,16 +170,15 @@ function Dropdown2(props) {
                 </div>
                 <div>
                   <h2>Banned after weeks pregnant:</h2>
-              
 
-            <p>{message}</p>
+                  <p>{message}</p>
 
-                 <p>
+                  <p>
                   </p>
                 </div>
                 <div>
                   <h2>Waiting period hours:</h2>{" "}
-                  <p> {waiting ? waiting: "No waiting period"} </p>
+                  <p> {waiting ? waiting : "No waiting period"} </p>
                   <h2>Counseling visits required:</h2>{" "}
                   <p>{counsel ? counsel : "None required"}</p>
                 </div>
@@ -181,11 +199,12 @@ function Dropdown2(props) {
                   </li>
 
                 </ul>
+                {(formattedLastUpdated==="Invalid Date")?"":<p>Info Last Updated: {formattedLastUpdated}</p>}
               </div>
             </div>
           </div>
         </div>
-{/* 
+        {/* 
         <div className={visibile}>
             <div className={props.darkcont}>
               <h2>Abortion Organization Info: </h2>
@@ -194,8 +213,8 @@ function Dropdown2(props) {
               <li>
                     <p>{orgs} </p>
                   </li> */}
-{/* </div> */}
-{/* </div>
+        {/* </div> */}
+        {/* </div>
 </div> */}
         {/* <div> <h1 className="talk"> Need someone to talk to? </h1></div>
         < Chat /> */}
