@@ -2,25 +2,6 @@
 
 from django.db import migrations, models
 
-def seed_data(apps, schema_editor):
-    AbortionData = apps.get_model('main', 'AbortionData')
-    states= [
-    "Alabama", "Alaska", "Arizona", "Arkansas", "California",
-    "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
-    "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
-    "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland",
-    "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri",
-    "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
-    "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
-    "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
-    "Tennessee", "Texas", "Utah", "Vermont", "Virginia",
-    "Washington", "West Virginia", "Wisconsin", "Wyoming"
-]
- # List of state names
-
-    for state_name in states:
-        AbortionData.objects.create({"state":state_name})
-
 class Migration(migrations.Migration):
 
     initial = True
@@ -37,5 +18,5 @@ class Migration(migrations.Migration):
                 ('policy', models.TextField()),
             ],
         ),
-        migrations.RunPython(seed_data),
+  
     ]

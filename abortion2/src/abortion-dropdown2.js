@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import React from "react";
 import "./App.css";
 import "./index.css";
-import Chat from "./Chat";
 
 function Dropdown2(props) {
   const [states, setStates] = useState([]);
@@ -18,6 +17,7 @@ function Dropdown2(props) {
   const [visibile, setVisible] = useState("invisible");
   const [orgs, setOrgs] = useState("")
   const [date, setDate] = useState("")
+  const [isLoading, setIsLoading] = useState(false); // Add this state variable
 
   const handleOptionChange = (e) => {
     const value = e.target.value;
@@ -30,6 +30,8 @@ function Dropdown2(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
+    try{
     const salesUrl = `https://glacial-shore-69830-91298bf010bb.herokuapp.com/abortion_data/api/data/${state}`;
 
     const response = await fetch(salesUrl);
@@ -86,9 +88,13 @@ function Dropdown2(props) {
         } else {
           setR("No data");
         }
-
+      }
       }
 
+    } catch (error) {
+      // Handle error
+    } finally {
+      setIsLoading(false); // Set isLoading to false after data fetching is done
     }
   };
 
@@ -160,14 +166,21 @@ const formattedLastUpdated = lastUpdatedDate.toLocaleDateString('en-US', options
             </div>
           </div>
         </div>
+        {/* { (files.length||insurance.length||waiting.length)?  */}
+
         <div>
           <div className={visibile}>
             <div className={props.darkcont}>
               <div className="data">
                 <div>
-                  <h2>Health exception:</h2>
+                {isLoading ? ( 
+                  <p>Waiting for data...</p>
+                ) : (
+                  <div>
+                 <h2>Health exception:</h2>
+      
                   <p>{files ? files : "Allows for any health reason"}</p>
-                </div>
+              
                 <div>
                   <h2>Banned after weeks pregnant:</h2>
 
@@ -177,9 +190,9 @@ const formattedLastUpdated = lastUpdatedDate.toLocaleDateString('en-US', options
                   </p>
                 </div>
                 <div>
-                  <h2>Waiting period hours:</h2>{" "}
+                  <h2>Waiting period hours:</h2>
                   <p> {waiting ? waiting : "No waiting period"} </p>
-                  <h2>Counseling visits required:</h2>{" "}
+                  <h2>Counseling visits required:</h2>
                   <p>{counsel ? counsel : "None required"}</p>
                 </div>
 
@@ -200,25 +213,17 @@ const formattedLastUpdated = lastUpdatedDate.toLocaleDateString('en-US', options
 
                 </ul>
                 {(formattedLastUpdated==="Invalid Date")?"":<p>Info Last Updated: {formattedLastUpdated}</p>}
-              </div>
+                </div>
+                )}
+                </div>
+                
             </div>
           </div>
-        </div>
-        {/* 
-        <div className={visibile}>
-            <div className={props.darkcont}>
-              <h2>Abortion Organization Info: </h2>
-              <div className="data">
                 
-              <li>
-                    <p>{orgs} </p>
-                  </li> */}
-        {/* </div> */}
-        {/* </div>
-</div> */}
-        {/* <div> <h1 className="talk"> Need someone to talk to? </h1></div>
-        < Chat /> */}
+        </div>
+        </div>
       </body>
+                
     </>
   );
 }
