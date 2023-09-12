@@ -31,64 +31,80 @@ function Dropdown2(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    try{
-    const salesUrl = `https://glacial-shore-69830-91298bf010bb.herokuapp.com/abortion_data/api/data/${state}`;
+    try {
+      const salesUrl = `https://glacial-shore-69830-91298bf010bb.herokuapp.com/abortion_data/api/data/${state}`;
+      console.log(state)
+      const response = await fetch(salesUrl);
+      if (response.ok) {
+        setVisible("visibile");
+        const data = await response.json();
+        setOrgs(data.clinics.response)
+        console.log(orgs)
+        if (data.data.policy == null) {
+          setLMP("")
+          setFiles("")
+          setWaiting("")
+        } else {
+          if (data.data.policy.exception_health != null) {
+            setFiles(data.data.policy.exception_health);
+          } else {
+            setFiles("No data");
+          }
+          if (data.data.policy.banned_after_weeks_since_LMP != null) {
 
-    const response = await fetch(salesUrl);
-    if (response.ok) {
-      setVisible("visibile");
-      const data = await response.json();
-      setOrgs(data.clinics.response)
-      console.log(orgs)
-      if (data.data.policy == null) {
-        setLMP("")
-        setFiles("")
-        setWaiting("")
-      } else {
-        if (data.data.policy.exception_health != null) {
-          setFiles(data.data.policy.exception_health);
-        } else {
-          setFiles("No data");
-        }
-        if (data.data.policy.banned_after_weeks_since_LMP != null) {
+            setLMP(data.data.policy.banned_after_weeks_since_LMP);
+          } else {
+            setLMP("No data");
+          }
+          if (data.data.policy['Last Updated'] != null) {
 
-          setLMP(data.data.policy.banned_after_weeks_since_LMP);
-        } else {
-          setLMP("No data");
-        }
-        if (data.data.policy['Last Updated'] != null) {
+            setDate(data.data.policy['Last Updated']);
+          } else {
+            setDate("No data");
+          }
 
-          setDate(data.data.policy['Last Updated']);
-        } else {
-          setDate("No data");
+          if (data.waiting.policy != null) {
+            setWaiting(data.waiting.policy.waiting_period_hours);
+          } else {
+            setWaiting("No data");
+          }
+          if (data.waiting.policy != null) {
+            setCounsel(data.waiting.policy.counseling_visits);
+          } else {
+            setCounsel("No data");
+          }
+          if (data.insurance.policy != null) {
+            setInsurance(data.insurance.policy.medicaid_exception_life);
+          } else {
+            setInsurance("No data");
+          }
+          if (data.insurance.policy.exchange_exception_health != null) {
+            setHealth(data.insurance.policy.exchange_exception_health);
+          } else {
+            setHealth("No data");
+          }
+          if (data.insurance.policy.medicaid_exception_rape_or_incest != null) {
+            setR(data.insurance.policy.medicaid_exception_rape_or_incest);
+          } else {
+            setR("No data");
+          }
+        }
+        if (option == "Colorado") {
+          setLMP("Legal in all stages of Pregnancy")
+        }
+        if (option == "Alaska") {
+          setLMP("Legal in all stages of Pregnancy")
+        }
+        if (option == "Vermont") {
+          setLMP("Legal in all stages of Pregnancy")
+        }
+        if (option == "Oregon") {
+          setLMP("Legal in all stages of Pregnancy")
+        }
+        if (option == "New Mexico") {
+          setLMP("Legal in all stages of Pregnancy")
         }
 
-        if (data.waiting.policy != null) {
-          setWaiting(data.waiting.policy.waiting_period_hours);
-        } else {
-          setWaiting("No data");
-        }
-        if (data.waiting.policy != null) {
-          setCounsel(data.waiting.policy.counseling_visits);
-        } else {
-          setCounsel("No data");
-        }
-        if (data.insurance.policy != null) {
-          setInsurance(data.insurance.policy.medicaid_exception_life);
-        } else {
-          setInsurance("No data");
-        }
-        if (data.insurance.policy.exchange_exception_health != null) {
-          setHealth(data.insurance.policy.exchange_exception_health);
-        } else {
-          setHealth("No data");
-        }
-        if (data.insurance.policy.medicaid_exception_rape_or_incest != null) {
-          setR(data.insurance.policy.medicaid_exception_rape_or_incest);
-        } else {
-          setR("No data");
-        }
-      }
       }
 
     } catch (error) {
@@ -124,10 +140,10 @@ function Dropdown2(props) {
   }
 
   const lastUpdatedString = date;
-const lastUpdatedDate = new Date(lastUpdatedString);
+  const lastUpdatedDate = new Date(lastUpdatedString);
 
-const options = { year: 'numeric', month: 'long', day: 'numeric' };
-const formattedLastUpdated = lastUpdatedDate.toLocaleDateString('en-US', options);
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const formattedLastUpdated = lastUpdatedDate.toLocaleDateString('en-US', options);
 
   useEffect(() => {
     fetchData();
@@ -173,57 +189,72 @@ const formattedLastUpdated = lastUpdatedDate.toLocaleDateString('en-US', options
             <div className={props.darkcont}>
               <div className="data">
                 <div>
-                {isLoading ? ( 
-                  <p>Waiting for data...</p>
-                ) : (
-                  <div>
-                 <h2>Health exception:</h2>
-      
-                  <p>{files ? files : "Allows for any health reason"}</p>
-              
-                <div>
-                  <h2>Banned after weeks pregnant:</h2>
+                  {isLoading ? (
+                    <p>Waiting for data...</p>
+                  ) : (
+                    <div>
+                      {files != "No data" ?
+                        <>
+                          <h2>Health exception:</h2>
 
-                  <p>{message}</p>
+                          <p>{files ? files : "Allows for any health reason"}</p>
+                        </>
+                        : ""
+                      }
+                      <div>
+                        <h2>Banned after weeks pregnant:</h2>
 
-                  <p>
-                  </p>
-                </div>
-                <div>
-                  <h2>Waiting period hours:</h2>
-                  <p> {waiting ? waiting : "No waiting period"} </p>
-                  <h2>Counseling visits required:</h2>
-                  <p>{counsel ? counsel : "None required"}</p>
+                        <p>{message}</p>
+
+                        <p>
+                        </p>
+                      </div>
+                      <div>
+                        {waiting != "No data" ?
+                          <>
+                            <h2>Waiting period hours:</h2>
+                            <p> {waiting ? waiting : "No waiting period"} </p>
+                          </> : ""}
+                        {counsel != "No data" ?
+                          <>
+                            <h2>Counseling visits required:</h2>
+                            <p>{counsel ? counsel : "None required"}</p>
+                          </> : ""}
+                      </div>
+
+                      <ul>
+                        <h2>Insurance Info:</h2>
+                        <li>
+                          <p>
+                            {insurance != "No data" ?
+                              <>
+                                Medicaid exception for life or death circumstances:
+                                {insurance ? "Yes" : "No"}
+                              </>
+                              : ""
+                            }
+                          </p>
+                        </li>
+                        <li>
+                          <p>Exchange exception: {Health} </p>
+                        </li>
+                        <li>
+                          <p>Medicaid exception for R or I: {R ? "Yes" : "No"} </p>
+                        </li>
+
+                      </ul>
+                      {(formattedLastUpdated === "Invalid Date") ? "" : <p>Info Last Updated: {formattedLastUpdated}</p>}
+                    </div>
+                  )}
                 </div>
 
-                <ul>
-                  <h2>Insurance Info:</h2>
-                  <li>
-                    <p>
-                      Medicaid exception for life or death circumstances:
-                      {insurance ? "Yes" : "No"}
-                    </p>
-                  </li>
-                  <li>
-                    <p>Exchange exception: {Health} </p>
-                  </li>
-                  <li>
-                    <p>Medicaid exception for R or I: {R ? "Yes" : "No"} </p>
-                  </li>
-
-                </ul>
-                {(formattedLastUpdated==="Invalid Date")?"":<p>Info Last Updated: {formattedLastUpdated}</p>}
-                </div>
-                )}
-                </div>
-                
+              </div>
             </div>
+
           </div>
-                
-        </div>
         </div>
       </body>
-                
+
     </>
   );
 }
