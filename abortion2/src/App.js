@@ -12,13 +12,19 @@ import Chat from "./Chat";
 function App() {
   const [dark, setDark] = useState("darkmode");
 const [darkcont, setDarkcont] = useState("darkCont");
+const [darkButton, setDarkButton] = useState("button");
+const [darkDrop, setDarkDrop] = useState("");
 
 const changeStyle = () => {
   if (dark == "darkmode") {
+    setDarkDrop("lightDrop")
+    setDarkButton("lightButton")
     setDark("lightmode");
     setDarkcont("lightCont");
     document.body.style.backgroundColor = "white";
   } else {
+    setDarkDrop("")
+    setDarkButton("Darkbutton")
     setDark("darkmode");
     setDarkcont("darkCont");
     document.body.style.backgroundColor = "#192841";
@@ -32,7 +38,7 @@ const changeStyle = () => {
         <div className={`App ${dark}`}>
         <button onClick={changeStyle} className="dark"></button>
           <Routes>
-            <Route path="/" element={<Dropdown2 dark={dark} darkcont={darkcont}/>} />
+            <Route path="/" element={<Dropdown2 dark={dark} darkDrop={darkDrop} darkButton={darkButton} darkcont={darkcont}/>} />
             <Route path="/contact" element={<Contact dark={dark} darkcont={darkcont}/>} />
             <Route path="/chat" element={<Chat darkcont={darkcont}/>} />
           </Routes>

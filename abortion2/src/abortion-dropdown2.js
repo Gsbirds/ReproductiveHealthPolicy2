@@ -152,18 +152,19 @@ function Dropdown2(props) {
   return (
     <>
       <body className={props.dark}>
-        <div className="tableform">
-          <div className="row">
-            <div className="offset-3 col-6">
+        <div className="tableform"> 
+          <div className="row" >
+            <div className="offset-3 col-6" >
               <h1>Find out.</h1>
               <form id="create-location-form" onSubmit={handleSubmit}>
-                <div className="mb-3">
+                <div className="mb-3" >
                   <select
                     onChange={handleOptionChange}
                     required
                     name="state"
                     value={option}
                     className="forms"
+                    id={props.darkDrop}
                   >
                     <option>Pick a state</option>
                     {states.map((state) => {
@@ -175,7 +176,7 @@ function Dropdown2(props) {
                     })}
                   </select>
                 </div>
-                <button onSubmit={handleSubmit} className="button">
+                <button onSubmit={handleSubmit} className="button" id={props.darkButton}>
                   Tell me.
                 </button>
               </form>
