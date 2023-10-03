@@ -17,11 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.urls import path, re_path
 from django.views.generic import TemplateView
+
 # from main.views import redirect_to_page
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('abortion_data/',include ("main.urls")),
-    re_path(r'^$', TemplateView.as_view(template_name='index.html'))
+    path("admin/", admin.site.urls),
+    path("abortion_data/", include("main.urls")),
+    re_path(r"^$", TemplateView.as_view(template_name="index.html"))
     # path("", redirect_to_page, name="home_page" ) are you redirecting to place that reirects- reccursive redirect???
 ]

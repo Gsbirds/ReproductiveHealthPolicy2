@@ -5,6 +5,7 @@ from .models import AbortionData
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
+
 def getAbortionData(state):
     headers = {"token": ABORTION_API_KEY}
 
@@ -12,7 +13,7 @@ def getAbortionData(state):
         "state_name": state,
     }
 
-    url = f'https://api.abortionpolicyapi.com/v1/gestational_limits/states/'
+    url = f"https://api.abortionpolicyapi.com/v1/gestational_limits/states/"
 
     response = requests.get(url, params=params, headers=headers)
     # content=response.json()
@@ -22,7 +23,8 @@ def getAbortionData(state):
         return {"policy": content[state]}
     except (KeyError, IndexError):
         return {"policy": None}
-    
+
+
 def getAbortionWaiting(state):
     headers = {"token": ABORTION_API_KEY}
 
@@ -40,7 +42,8 @@ def getAbortionWaiting(state):
         return {"policy": content[state]}
     except (KeyError, IndexError):
         return {"policy": None}
-    
+
+
 def getAbortionInsurance(state):
     headers = {"token": ABORTION_API_KEY}
 
@@ -61,20 +64,27 @@ def getAbortionInsurance(state):
 
 
 def getAbortionClinics(state):
-
     headers = {
-        'Authorization': 'Bearer '+OPENAI_API_KEY,
-        'Content-Type': 'application/json'
+        "Authorization": "Bearer " + OPENAI_API_KEY,
+        "Content-Type": "application/json",
     }
 
     data = {
         "model": "gpt-3.5-turbo",
-        'messages': [{'role': 'user', 'content': 'Give me resources to help women get an abortion who are from'+ state}]
+        "messages": [
+            {
+                "role": "user",
+                "content": "Give me resources to help women get an abortion who are from"
+                + state,
+            }
+        ],
     }
 
-    response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data)
+    response = requests.post(
+        "https://api.openai.com/v1/chat/completions", headers=headers, json=data
+    )
 
     content = json.loads(response.content)
     reply = content
 
-    return {'response': reply}
+    return {"response": reply}
