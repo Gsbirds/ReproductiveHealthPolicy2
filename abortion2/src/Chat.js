@@ -1,11 +1,6 @@
 import React from "react";
 
 function MessageRow(props) {
-<<<<<<< HEAD
-=======
-  console.log(props.input);
-  console.log(props.message.message);
->>>>>>> 9b17d9d5a07221ff1f972c8a700d0d44435e716d
   return (
     <>
       {props.input.includes(props.message.message) ? (
@@ -32,11 +27,6 @@ class Chat extends React.Component {
   }
 
   connect() {
-<<<<<<< HEAD
-
-=======
-    console.log(this);
->>>>>>> 9b17d9d5a07221ff1f972c8a700d0d44435e716d
     if (this.loading && !this.state.connected) {
       return;
     }
@@ -76,14 +66,8 @@ class Chat extends React.Component {
   sendMessage(e) {
     e.preventDefault();
     this.socket.send(this.state.message);
-<<<<<<< HEAD
     this.setState({ message: '' });
     this.input.push(this.state.message)
-=======
-    this.setState({ message: "" });
-    this.input.push(this.state.message);
-    // console.log(this.input)
->>>>>>> 9b17d9d5a07221ff1f972c8a700d0d44435e716d
   }
 
   updateMessage(e) {

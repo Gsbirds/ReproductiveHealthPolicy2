@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('abortion_data/', include("main.urls")),
+    path('api/', include('main.urls')),  # Changed to /api prefix
+    path('abortion_data/', include('main.urls')),  # Keep old route for compatibility
     re_path(r'^.*$', TemplateView.as_view(template_name='index.html'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -99,40 +99,37 @@ def show_data(request):
     )
 
 
-@require_http_methods(["GET", "DELETE", "PUT"])
-def show_data_details(request, id):
+@require_http_methods(["GET"])
+def show_data_details(request, state):
     if request.method == "GET":
-        abortion = AbortionData.objects.get(id=id)
-        data = getAbortionData(abortion.state)
-        waiting = getAbortionWaiting(abortion.state)
-        insurance = getAbortionInsurance(abortion.state)
-        clinics = getAbortionClinics(abortion.state)
+        try:
+            data = getAbortionData(state)
+            waiting = getAbortionWaiting(state)
+            insurance = getAbortionInsurance(state)
+            clinics = getAbortionClinics(state)
 
-        return JsonResponse(
-            {
-                "abortion": abortion,
-                "data": data,
-                "waiting": waiting,
-                "insurance": insurance,
-                "clinics": clinics,
-            },
-            encoder=AbortionDataDetailEncoder,
-            safe=False,
-        )
-    elif request.method == "DELETE":
-        count, _ = AbortionData.objects.filter(id=id).delete()
-        return JsonResponse({"deleted": count > 0})
-    else:
-        content = json.loads(request.body)
-
-        AbortionData.objects.filter(id=id).update(**content)
-        Abortion_Data = AbortionData.objects.get(id=id)
-
-        return JsonResponse(
-            Abortion_Data,
-            encoder=AbortionDataDetailEncoder,
-            safe=False,
-        )
+            response = JsonResponse(
+                {
+                    "data": data,
+                    "waiting": waiting,
+                    "insurance": insurance,
+                    "clinics": clinics,
+                },
+                safe=False,
+            )
+            response["Content-Type"] = "application/json"
+            response["Access-Control-Allow-Origin"] = "*"
+            return response
+        except Exception as e:
+            return JsonResponse(
+                {"error": str(e)},
+                status=400
+            )
+    return JsonResponse(
+        AbortionData,
+        encoder=AbortionDataDetailEncoder,
+        safe=False,
+    )
 
 
 # def redirect_to_page(request):

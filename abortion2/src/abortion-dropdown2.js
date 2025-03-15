@@ -21,11 +21,8 @@ function Dropdown2(props) {
 
   const handleOptionChange = (e) => {
     const value = e.target.value;
-    const index = e.target.selectedIndex;
-    const el = e.target.childNodes[index];
-    const option = el.getAttribute("id");
     setOption(value);
-    setState(option);
+    setState(value);  // Use the state name directly
   };
 
   const handleSubmit = async (event) => {
@@ -168,7 +165,7 @@ function Dropdown2(props) {
                     <option>Pick a state</option>
                     {states.map((state) => {
                       return (
-                        <option id={state.id} key={state.id} defaultValue="">
+                        <option key={state.id} value={state.state}>
                           {state.state}
                         </option>
                       );
