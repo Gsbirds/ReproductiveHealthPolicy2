@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 import "./App.css";
 
-
 function Nav() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg">

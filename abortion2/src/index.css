@@ -40,6 +40,7 @@ form{
 } 
 
 .dark{
+  margin-left: -600px;
   width: 40px;
   height:40px;
   border-radius: 20px;
@@ -65,6 +66,26 @@ form{
   color: #192841;
 }
 
+#lightButton{
+  width: 90px;
+  height: 38px;
+  border-radius: 5px;
+  background-color:#AEC6CF;
+  border-style: solid;
+  font-size: larger;
+  color:#192841;
+  border-color:#192841;
+}
+#lightButton:hover {
+  background-color:#192841;
+  color: #AEC6CF;
+}
+
+#lightDrop{
+  background-color:#AEC6CF;
+  color:#192841;
+  border-color:#192841;
+}
 p{
   font-size: larger;
 }
@@ -129,9 +150,6 @@ li{
   display:none;
 }
 
-/* .input-group{
-  margin-left:7rem;
-} */
 
 .talk{
   margin-top: 3rem;
@@ -139,6 +157,14 @@ li{
 
 
 @media(max-width:645px){
+  .dark{
+    margin-left: -300px;
+    width: 40px;
+    height:40px;
+    border-radius: 20px;
+    background-color:#AEC6CF;
+    border-style: solid;
+  }
   .lightCont{
     margin: auto;
     margin-left: -4rem;

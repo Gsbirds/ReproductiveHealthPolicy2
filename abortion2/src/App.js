@@ -4,26 +4,31 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Dropdown2 from "./abortion-dropdown2";
 import { useState, useEffect } from "react";
 import Contact from "./contact";
-import Footer from "./footer"
+import Footer from "./footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Chat from "./Chat";
 
-
 function App() {
   const [dark, setDark] = useState("darkmode");
-const [darkcont, setDarkcont] = useState("darkCont");
+  const [darkcont, setDarkcont] = useState("darkCont");
+  const [darkButton, setDarkButton] = useState("button");
+  const [darkDrop, setDarkDrop] = useState("");
 
-const changeStyle = () => {
-  if (dark == "darkmode") {
-    setDark("lightmode");
-    setDarkcont("lightCont");
-    document.body.style.backgroundColor = "white";
-  } else {
-    setDark("darkmode");
-    setDarkcont("darkCont");
-    document.body.style.backgroundColor = "#192841";
-  }
-};
+  const changeStyle = () => {
+    if (dark == "darkmode") {
+      setDarkDrop("lightDrop");
+      setDarkButton("lightButton");
+      setDark("lightmode");
+      setDarkcont("lightCont");
+      document.body.style.backgroundColor = "white";
+    } else {
+      setDarkDrop("");
+      setDarkButton("Darkbutton");
+      setDark("darkmode");
+      setDarkcont("darkCont");
+      document.body.style.backgroundColor = "#192841";
+    }
+  };
   return (
     <>
       <BrowserRouter>
@@ -44,7 +49,7 @@ const changeStyle = () => {
           </div>
         </div>
         </div>
-        <Footer/>  
+        <Footer />
       </BrowserRouter>
     </>
   );

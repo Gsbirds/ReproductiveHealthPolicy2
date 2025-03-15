@@ -1,34 +1,42 @@
-import React from 'react';
-
+import React from "react";
 
 function MessageRow(props) {
+<<<<<<< HEAD
+=======
+  console.log(props.input);
+  console.log(props.message.message);
+>>>>>>> 9b17d9d5a07221ff1f972c8a700d0d44435e716d
   return (
     <>
-    {props.input.includes(props.message.message)?
-      <p>You: {props.message.message} </p>:
-      <p> Them: {props.message.message}</p>
-    }
-      </>
-  )
+      {props.input.includes(props.message.message) ? (
+        <p>You: {props.message.message} </p>
+      ) : (
+        <p> Them: {props.message.message}</p>
+      )}
+    </>
+  );
 }
-
 
 class Chat extends React.Component {
   constructor(props) {
     super(props);
-    this.input=([])
+    this.input = [];
     this.state = {
       messages: [],
       clientId: Number.parseInt(Math.random() * 10000000),
       connected: false,
-      message: '',
+      message: "",
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessage = this.updateMessage.bind(this);
   }
 
   connect() {
+<<<<<<< HEAD
 
+=======
+    console.log(this);
+>>>>>>> 9b17d9d5a07221ff1f972c8a700d0d44435e716d
     if (this.loading && !this.state.connected) {
       return;
     }
@@ -36,30 +44,27 @@ class Chat extends React.Component {
     // Should be an environment variable in the future
     const url = `ws://localhost:8000/ws/`;
     this.socket = new WebSocket(url);
-    this.socket.addEventListener('open', () => {
+    this.socket.addEventListener("open", () => {
       this.setState({ connected: true });
       this.loading = false;
     });
-    this.socket.addEventListener('close', () => {
+    this.socket.addEventListener("close", () => {
       this.setState({ connected: false });
       this.loading = false;
       setTimeout(() => {
         this.connect();
       }, 1000);
     });
-    this.socket.addEventListener('error', () => {
+    this.socket.addEventListener("error", () => {
       this.setState({ connected: false });
       this.loading = false;
       setTimeout(() => {
         this.connect();
       }, 1000);
     });
-    this.socket.addEventListener('message', message => {
+    this.socket.addEventListener("message", (message) => {
       this.setState({
-        messages: [
-          JSON.parse(message.data),
-          ...this.state.messages,
-        ],
+        messages: [JSON.parse(message.data), ...this.state.messages],
       });
     });
   }
@@ -71,8 +76,14 @@ class Chat extends React.Component {
   sendMessage(e) {
     e.preventDefault();
     this.socket.send(this.state.message);
+<<<<<<< HEAD
     this.setState({ message: '' });
     this.input.push(this.state.message)
+=======
+    this.setState({ message: "" });
+    this.input.push(this.state.message);
+    // console.log(this.input)
+>>>>>>> 9b17d9d5a07221ff1f972c8a700d0d44435e716d
   }
 
   updateMessage(e) {
@@ -82,45 +93,45 @@ class Chat extends React.Component {
   render() {
     return (
       <>
-       <div className="darkCont">
-       <h1>Chat</h1>
-       
-        {/* <h2>Your ID: {this.state.clientId}</h2> */}
-       
-        <form onSubmit={this.sendMessage}>
+        <div className="darkCont">
+          <h1>Chat</h1>
 
-        <div className="input-group mb-3">
-          <div  className="input-group-prepend">
-            <input value={this.state.message}
-                   className="form-control"
-                   type="text"
-                   id="messageText"
-                   autoComplete="off"
-                   onChange={this.updateMessage}/>
-     </div>
-            <button disabled={!this.state.connected}
-                    className="btn btn-outline-secondary">
-              Send
-            </button>
-      </div>
+          {/* <h2>Your ID: {this.state.clientId}</h2> */}
 
-        </form>
-       
-        <h2>Messages:</h2>
-            {this.state.messages.map(message => (
-                 <MessageRow key={this.state.clientId + message}
-                 messages={this.state.messages}
-                       message={message}
-                       input={this.input}
-                       clientId={this.state.clientId} />
-   
-            ))}
+          <form onSubmit={this.sendMessage}>
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <input
+                  value={this.state.message}
+                  className="form-control"
+                  type="text"
+                  id="messageText"
+                  autoComplete="off"
+                  onChange={this.updateMessage}
+                />
+              </div>
+              <button
+                disabled={!this.state.connected}
+                className="btn btn-outline-secondary"
+              >
+                Send
+              </button>
+            </div>
+          </form>
 
- 
+          <h2>Messages:</h2>
+          {this.state.messages.map((message) => (
+            <MessageRow
+              key={this.state.clientId + message}
+              messages={this.state.messages}
+              message={message}
+              input={this.input}
+              clientId={this.state.clientId}
+            />
+          ))}
         </div>
       </>
-    
-    )
+    );
   }
 }
 

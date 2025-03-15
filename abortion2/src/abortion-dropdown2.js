@@ -15,8 +15,8 @@ function Dropdown2(props) {
   const [R, setR] = useState("");
   const [counsel, setCounsel] = useState("");
   const [visibile, setVisible] = useState("invisible");
-  const [orgs, setOrgs] = useState("")
-  const [date, setDate] = useState("")
+  const [orgs, setOrgs] = useState("");
+  const [date, setDate] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Add this state variable
 
   const handleOptionChange = (e) => {
@@ -39,9 +39,9 @@ function Dropdown2(props) {
         const data = await response.json();
         setOrgs(data.clinics.response)
         if (data.data.policy == null) {
-          setLMP("")
-          setFiles("")
-          setWaiting("")
+          setLMP("");
+          setFiles("");
+          setWaiting("");
         } else {
           if (data.data.policy.exception_health != null) {
             setFiles(data.data.policy.exception_health);
@@ -49,14 +49,12 @@ function Dropdown2(props) {
             setFiles("No data");
           }
           if (data.data.policy.banned_after_weeks_since_LMP != null) {
-
             setLMP(data.data.policy.banned_after_weeks_since_LMP);
           } else {
             setLMP("No data");
           }
-          if (data.data.policy['Last Updated'] != null) {
-
-            setDate(data.data.policy['Last Updated']);
+          if (data.data.policy["Last Updated"] != null) {
+            setDate(data.data.policy["Last Updated"]);
           } else {
             setDate("No data");
           }
@@ -88,23 +86,21 @@ function Dropdown2(props) {
           }
         }
         if (option == "Colorado") {
-          setLMP("Legal in all stages of Pregnancy")
+          setLMP("Legal in all stages of Pregnancy");
         }
         if (option == "Alaska") {
-          setLMP("Legal in all stages of Pregnancy")
+          setLMP("Legal in all stages of Pregnancy");
         }
         if (option == "Vermont") {
-          setLMP("Legal in all stages of Pregnancy")
+          setLMP("Legal in all stages of Pregnancy");
         }
         if (option == "Oregon") {
-          setLMP("Legal in all stages of Pregnancy")
+          setLMP("Legal in all stages of Pregnancy");
         }
         if (option == "New Mexico") {
-          setLMP("Legal in all stages of Pregnancy")
+          setLMP("Legal in all stages of Pregnancy");
         }
-
       }
-
     } catch (error) {
       // Handle error
     } finally {
@@ -113,7 +109,8 @@ function Dropdown2(props) {
   };
 
   const fetchData = async () => {
-    const url = "https://glacial-shore-69830-91298bf010bb.herokuapp.com/abortion_data/api/data";
+    const url =
+      "https://glacial-shore-69830-91298bf010bb.herokuapp.com/abortion_data/api/data";
 
     const response = await fetch(url);
 
@@ -128,7 +125,8 @@ function Dropdown2(props) {
   if (LMP === 99) {
     message = "Not banned until after viability";
   } else if (LMP === 28) {
-    message = "Banned in the third trimester (25 weeks pregnant, 28 since last period)";
+    message =
+      "Banned in the third trimester (25 weeks pregnant, 28 since last period)";
   } else if (LMP === 22) {
     message = "Banned after fertilization (22 weeks since last period)";
   } else if (LMP === 24) {
@@ -140,8 +138,11 @@ function Dropdown2(props) {
   const lastUpdatedString = date;
   const lastUpdatedDate = new Date(lastUpdatedString);
 
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  const formattedLastUpdated = lastUpdatedDate.toLocaleDateString('en-US', options);
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  const formattedLastUpdated = lastUpdatedDate.toLocaleDateString(
+    "en-US",
+    options,
+  );
 
   useEffect(() => {
     fetchData();
@@ -162,6 +163,7 @@ function Dropdown2(props) {
                     name="state"
                     value={option}
                     className="forms"
+                    id={props.darkDrop}
                   >
                     <option>Pick a state</option>
                     {states.map((state) => {
@@ -173,7 +175,11 @@ function Dropdown2(props) {
                     })}
                   </select>
                 </div>
-                <button onSubmit={handleSubmit} className="button">
+                <button
+                  onSubmit={handleSubmit}
+                  className="button"
+                  id={props.darkButton}
+                >
                   Tell me.
                 </button>
               </form>
@@ -191,68 +197,80 @@ function Dropdown2(props) {
                     <p>Waiting for data...</p>
                   ) : (
                     <div>
-                      {files != "No data" ?
+                      {files != "No data" ? (
                         <>
                           <h2>Health exception:</h2>
 
-                          <p>{files ? files : "Allows for any health reason"}</p>
+                          <p>
+                            {files ? files : "Allows for any health reason"}
+                          </p>
                         </>
-                        : ""
-                      }
+                      ) : (
+                        ""
+                      )}
                       <div>
                         <h2>Banned after weeks pregnant:</h2>
 
                         <p>{message}</p>
 
-                        <p>
-                        </p>
+                        <p></p>
                       </div>
                       <div>
-                        {waiting != "No data" ?
+                        {waiting != "No data" ? (
                           <>
                             <h2>Waiting period hours:</h2>
                             <p> {waiting ? waiting : "No waiting period"} </p>
-                          </> : ""}
-                        {counsel != "No data" ?
+                          </>
+                        ) : (
+                          ""
+                        )}
+                        {counsel != "No data" ? (
                           <>
                             <h2>Counseling visits required:</h2>
                             <p>{counsel ? counsel : "None required"}</p>
-                          </> : ""}
+                          </>
+                        ) : (
+                          ""
+                        )}
                       </div>
 
                       <ul>
                         <h2>Insurance Info:</h2>
                         <li>
                           <p>
-                            {insurance != "No data" ?
+                            {insurance != "No data" ? (
                               <>
-                                Medicaid exception for life or death circumstances:
+                                Medicaid exception for life or death
+                                circumstances:
                                 {insurance ? "Yes" : "No"}
                               </>
-                              : ""
-                            }
+                            ) : (
+                              ""
+                            )}
                           </p>
                         </li>
                         <li>
                           <p>Exchange exception: {Health} </p>
                         </li>
                         <li>
-                          <p>Medicaid exception for R or I: {R ? "Yes" : "No"} </p>
+                          <p>
+                            Medicaid exception for R or I: {R ? "Yes" : "No"}{" "}
+                          </p>
                         </li>
-
                       </ul>
-                      {(formattedLastUpdated === "Invalid Date") ? "" : <p>Info Last Updated: {formattedLastUpdated}</p>}
+                      {formattedLastUpdated === "Invalid Date" ? (
+                        ""
+                      ) : (
+                        <p>Info Last Updated: {formattedLastUpdated}</p>
+                      )}
                     </div>
                   )}
                 </div>
-
               </div>
             </div>
-
           </div>
         </div>
       </body>
-
     </>
   );
 }
