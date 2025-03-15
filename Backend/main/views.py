@@ -76,17 +76,11 @@ def show_data_details(request, state):
 
     if request.method == "GET":
         try:
-            print(f"Fetching data for state: {state}")
             # Get data from all endpoints
             data = getAbortionData(state)
             waiting = getAbortionWaiting(state)
             insurance = getAbortionInsurance(state)
             clinics = getAbortionClinics(state)
-
-            print(f"Data received for {state}:")
-            print(f"Abortion data: {data}")
-            print(f"Waiting period: {waiting}")
-            print(f"Insurance: {insurance}")
 
             response_data = {
                 "data": data,
