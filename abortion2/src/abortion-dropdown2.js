@@ -33,13 +33,11 @@ function Dropdown2(props) {
     setIsLoading(true);
     try {
       const salesUrl = `https://glacial-shore-69830-91298bf010bb.herokuapp.com/abortion_data/api/data/${state}`;
-      console.log(state)
       const response = await fetch(salesUrl);
       if (response.ok) {
         setVisible("visibile");
         const data = await response.json();
         setOrgs(data.clinics.response)
-        console.log(orgs)
         if (data.data.policy == null) {
           setLMP("")
           setFiles("")

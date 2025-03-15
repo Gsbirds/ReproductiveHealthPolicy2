@@ -2,7 +2,7 @@
 function Footer() {
 
     return(
-        <footer className="footer">Copyright 2023 Gabrielle Burgard</footer>
+        <footer className="footer">Copyright 2025 Gabrielle Burgard</footer>
     )
 
 

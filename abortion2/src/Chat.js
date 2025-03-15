@@ -2,8 +2,6 @@ import React from 'react';
 
 
 function MessageRow(props) {
-   console.log(props.input)
-   console.log(props.message.message)
   return (
     <>
     {props.input.includes(props.message.message)?
@@ -31,7 +29,6 @@ class Chat extends React.Component {
 
   connect() {
 
-    console.log(this)
     if (this.loading && !this.state.connected) {
       return;
     }
@@ -76,7 +73,6 @@ class Chat extends React.Component {
     this.socket.send(this.state.message);
     this.setState({ message: '' });
     this.input.push(this.state.message)
-    // console.log(this.input)
   }
 
   updateMessage(e) {

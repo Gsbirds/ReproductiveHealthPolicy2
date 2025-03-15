@@ -1,1 +1,1 @@
-web: gunicorn abortion.wsgi:app
+web: gunicorn abortion.wsgi --log-file -

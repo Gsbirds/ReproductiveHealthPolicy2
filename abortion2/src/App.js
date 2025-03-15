@@ -32,10 +32,16 @@ const changeStyle = () => {
         <div className={`App ${dark}`}>
         <button onClick={changeStyle} className="dark"></button>
           <Routes>
-            <Route path="/" element={<Dropdown2 dark={dark} darkcont={darkcont}/>} />
+            {/* <Route path="/" element={<Dropdown2 dark={dark} darkcont={darkcont}/>} /> */}
             <Route path="/contact" element={<Contact dark={dark} darkcont={darkcont}/>} />
-            <Route path="/chat" element={<Chat darkcont={darkcont}/>} />
           </Routes>
+        </div>
+        <div className="construction-container">
+          <div className="construction-content">
+            <h1>🚧 Under Construction 🚧</h1>
+            <p>We're working hard to bring you accurate, up to date info!</p>
+            <p>Please check back soon.</p>
+          </div>
         </div>
         </div>
         <Footer/>  

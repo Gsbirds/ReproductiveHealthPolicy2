@@ -35,9 +35,7 @@ def chat_index(request):
 @require_http_methods(["GET", "POST"])
 def show_data(request):
     if request.method=="GET":
-    #get all recipes from recipes table
         abortion_data = AbortionData.objects.all()
-        # works= Work.objects.all()
         return JsonResponse(
             {"abortion_data": abortion_data},
             encoder=AbortionDataListEncoder,
