@@ -29,7 +29,8 @@ DEBUG = False
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'frontend','build', 'static'),
+    os.path.join(BASE_DIR, 'frontend', 'static'),
+    os.path.join(BASE_DIR, 'frontend'),  # Add the frontend root for manifest.json and other files
 ]
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -85,7 +86,7 @@ ROOT_URLCONF = 'abortion.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'frontend')],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend'), os.path.join(BASE_DIR, 'frontend', 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
