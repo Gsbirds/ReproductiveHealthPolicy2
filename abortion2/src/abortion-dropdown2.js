@@ -27,93 +27,112 @@ function Dropdown2(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!state) {
+      console.error('No state selected');
+      return;
+    }
+    
     setIsLoading(true);
     try {
-      const salesUrl = `https://glacial-shore-69830-91298bf010bb.herokuapp.com/abortion_data/api/data/${state}`;
-      const response = await fetch(salesUrl);
-      if (response.ok) {
-        setVisible("visibile");
-        const data = await response.json();
-        setOrgs(data.clinics.response)
-        if (data.data.policy == null) {
-          setLMP("");
-          setFiles("");
-          setWaiting("");
-        } else {
-          if (data.data.policy.exception_health != null) {
-            setFiles(data.data.policy.exception_health);
-          } else {
-            setFiles("No data");
-          }
-          if (data.data.policy.banned_after_weeks_since_LMP != null) {
-            setLMP(data.data.policy.banned_after_weeks_since_LMP);
-          } else {
-            setLMP("No data");
-          }
-          if (data.data.policy["Last Updated"] != null) {
-            setDate(data.data.policy["Last Updated"]);
-          } else {
-            setDate("No data");
-          }
-
-          if (data.waiting.policy != null) {
-            setWaiting(data.waiting.policy.waiting_period_hours);
-          } else {
-            setWaiting("No data");
-          }
-          if (data.waiting.policy != null) {
-            setCounsel(data.waiting.policy.counseling_visits);
-          } else {
-            setCounsel("No data");
-          }
-          if (data.insurance.policy != null) {
-            setInsurance(data.insurance.policy.medicaid_exception_life);
-          } else {
-            setInsurance("No data");
-          }
-          if (data.insurance.policy.exchange_exception_health != null) {
-            setHealth(data.insurance.policy.exchange_exception_health);
-          } else {
-            setHealth("No data");
-          }
-          if (data.insurance.policy.medicaid_exception_rape_or_incest != null) {
-            setR(data.insurance.policy.medicaid_exception_rape_or_incest);
-          } else {
-            setR("No data");
-          }
+      const salesUrl = `https://glacial-shore-69830-91298bf010bb.herokuapp.com/api/data/${state}/`;
+      
+      const response = await fetch(salesUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
         }
-        if (option == "Colorado") {
-          setLMP("Legal in all stages of Pregnancy");
-        }
-        if (option == "Alaska") {
-          setLMP("Legal in all stages of Pregnancy");
-        }
-        if (option == "Vermont") {
-          setLMP("Legal in all stages of Pregnancy");
-        }
-        if (option == "Oregon") {
-          setLMP("Legal in all stages of Pregnancy");
-        }
-        if (option == "New Mexico") {
-          setLMP("Legal in all stages of Pregnancy");
-        }
+      });
+      
+      const responseText = await response.text();
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+      
+      const data = JSON.parse(responseText);
+      
+      setVisible("visible");
+      
+      if (data.clinics && data.clinics.response) {
+        setOrgs(data.clinics.response);
+      }
+      
+      if (!data.data || !data.data.policy) {
+        setLMP("");
+        setFiles("");
+        setWaiting("");
+      } else {
+        setFiles(data.data.policy.exception_health || "No data");
+        setLMP(data.data.policy.banned_after_weeks_since_LMP || "No data");
+        setDate(data.data.policy["Last Updated"] || "No data");
+      }
+      
+      if (data.waiting && data.waiting.policy) {
+        setWaiting(data.waiting.policy.waiting_period_hours || "No data");
+        setCounsel(data.waiting.policy.counseling_visits || "No data");
+      } else {
+        setWaiting("No data");
+        setCounsel("No data");
+      }
+      
+      if (data.insurance && data.insurance.policy) {
+        setInsurance(data.insurance.policy.medicaid_exception_life || "No data");
+        setHealth(data.insurance.policy.exchange_exception_health || "No data");
+        setR(data.insurance.policy.medicaid_exception_rape_or_incest || "No data");
+      } else {
+        setInsurance("No data");
+        setHealth("No data");
+        setR("No data");
+      }
+      
+      // Override LMP for specific states
+      const legalStates = ["Colorado", "Alaska", "Vermont", "Oregon", "New Mexico"];
+      if (legalStates.includes(state)) {
+        setLMP("Legal in all stages of Pregnancy");
+      }
+      
     } catch (error) {
-      // Handle error
+      console.error('Error:', error);
+      setVisible(false);
     } finally {
-      setIsLoading(false); // Set isLoading to false after data fetching is done
+      setIsLoading(false);
     }
   };
 
   const fetchData = async () => {
-    const url =
-      "https://glacial-shore-69830-91298bf010bb.herokuapp.com/abortion_data/api/data";
-
-    const response = await fetch(url);
-
-    if (response.ok) {
-      const data = await response.json();
-      setStates(data.abortion_data);
+    try {
+      const url = "https://glacial-shore-69830-91298bf010bb.herokuapp.com/api/data/";
+      
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        }
+      });
+      
+      const responseText = await response.text();
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      try {
+        const data = JSON.parse(responseText);
+        
+        if (data && data.abortion_data) {
+          setStates(data.abortion_data);
+        } else {
+          console.error('No abortion_data in response:', data);
+          setStates([]);
+        }
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        console.error('Response text was:', responseText);
+        setStates([]);
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+      setStates([]);
     }
   };
 
@@ -163,9 +182,9 @@ function Dropdown2(props) {
                     id={props.darkDrop}
                   >
                     <option>Pick a state</option>
-                    {states.map((state) => {
+                    {states.map((state, index) => {
                       return (
-                        <option key={state.id} value={state.state}>
+                        <option key={`state-${index}`} value={state.state}>
                           {state.state}
                         </option>
                       );
