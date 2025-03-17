@@ -1,4 +1,5 @@
 main/keys.py
+config/settings.py
 
 # Created by https://www.toptal.com/developers/gitignore/api/django
 # Edit at https://www.toptal.com/developers/gitignore?templates=django
@@ -168,6 +169,8 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+.config/settings.py
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can

@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse
-import json
-from .encoder import AbortionDataListEncoder,  AbortionDataDetailEncoder
 from .models import AbortionData
 from .acls import getAbortionData, getAbortionWaiting, getAbortionInsurance, getAbortionClinics
 
@@ -35,72 +33,44 @@ def catch_all_view(request):
 def chat_index(request):
     return render(request, "chat/index.html")
 
-@require_http_methods(["GET", "OPTIONS"])
+@require_http_methods(["GET"])
 def show_data(request):
-    if request.method == "OPTIONS":
-        response = JsonResponse({}, status=200)
-        response["Access-Control-Allow-Origin"] = "*"
-        response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
-        response["Access-Control-Allow-Headers"] = "Content-Type"
-        return response
-
-    if request.method == "GET":
-        try:
-            populate_database()
-            # Get unique states and sort them
-            states = list(AbortionData.objects.values('state').distinct().order_by('state'))
-            
-            response = JsonResponse({
-                'abortion_data': states,
-                'status': 'success'
-            })
-            response["Access-Control-Allow-Origin"] = "*"
-            response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
-            response["Access-Control-Allow-Headers"] = "Content-Type"
-            return response
-            
-        except Exception as e:
-            return JsonResponse(
-                {"error": str(e)},
-                status=500
-            )
+    try:
+        populate_database()
+        states = list(AbortionData.objects.values('state').distinct().order_by('state'))
+        
+        return JsonResponse({
+            'abortion_data': states,
+            'status': 'success'
+        })
+        
+    except Exception as e:
+        return JsonResponse(
+            {"error": str(e)},
+            status=500
+        )
     
-@require_http_methods(["GET", "OPTIONS"])
+@require_http_methods(["GET"])
 def show_data_details(request, state):
-    if request.method == "OPTIONS":
-        response = JsonResponse({}, status=200)
-        response["Access-Control-Allow-Origin"] = "*"
-        response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
-        response["Access-Control-Allow-Headers"] = "Content-Type"
-        return response
+    try:
+        data = getAbortionData(state)
+        waiting = getAbortionWaiting(state)
+        insurance = getAbortionInsurance(state)
+        
+        response_data = {
+            "data": data,
+            "waiting": waiting,
+            "insurance": insurance,
+            "state": state
+        }
 
-    if request.method == "GET":
-        try:
-            # Get data from all endpoints
-            data = getAbortionData(state)
-            waiting = getAbortionWaiting(state)
-            insurance = getAbortionInsurance(state)
-            clinics = getAbortionClinics(state)
+        return JsonResponse(response_data, safe=False)
 
-            response_data = {
-                "data": data,
-                "waiting": waiting,
-                "insurance": insurance,
-                "clinics": clinics,
-                "state": state
-            }
-
-            response = JsonResponse(response_data, safe=False)
-            response["Access-Control-Allow-Origin"] = "*"
-            response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
-            response["Access-Control-Allow-Headers"] = "Content-Type"
-            return response
-
-        except Exception as e:
-            return JsonResponse(
-                {"error": str(e)},
-                status=500
-            )
+    except Exception as e:
+        return JsonResponse(
+            {"error": str(e)},
+            status=500
+        )
     
 # def redirect_to_page(request):
 #     return redirect("home_page")

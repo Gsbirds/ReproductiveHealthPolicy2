@@ -1,9 +1,6 @@
 import requests
 from .keys import ABORTION_API_KEY, OPENAI_API_KEY
 import json
-from .models import AbortionData
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
 
 def getAbortionData(state):
     headers = {"token": ABORTION_API_KEY}

@@ -15,14 +15,14 @@ function Dropdown2(props) {
   const [R, setR] = useState("");
   const [counsel, setCounsel] = useState("");
   const [visibile, setVisible] = useState("invisible");
-  const [orgs, setOrgs] = useState("");
+
   const [date, setDate] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // Add this state variable
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleOptionChange = (e) => {
     const value = e.target.value;
     setOption(value);
-    setState(value);  // Use the state name directly
+    setState(value);
   };
 
   const handleSubmit = async (event) => {
@@ -52,11 +52,7 @@ function Dropdown2(props) {
       const data = JSON.parse(responseText);
       
       setVisible("visible");
-      
-      if (data.clinics && data.clinics.response) {
-        setOrgs(data.clinics.response);
-      }
-      
+            
       if (!data.data || !data.data.policy) {
         setLMP("");
         setFiles("");
@@ -85,7 +81,6 @@ function Dropdown2(props) {
         setR("No data");
       }
       
-      // Override LMP for specific states
       const legalStates = ["Colorado", "Alaska", "Vermont", "Oregon", "New Mexico"];
       if (legalStates.includes(state)) {
         setLMP("Legal in all stages of Pregnancy");
@@ -166,7 +161,7 @@ function Dropdown2(props) {
 
   return (
     <>
-      <body className={props.dark}>
+      <div className={`container ${props.dark}`}>
         <div className="tableform">
           <div className="row">
             <div className="offset-3 col-6">
@@ -270,7 +265,7 @@ function Dropdown2(props) {
                         </li>
                         <li>
                           <p>
-                            Medicaid exception for R or I: {R ? "Yes" : "No"}{" "}
+                            Medicaid exception for Rape or Incest: {R ? "Yes" : "No"}{" "}
                           </p>
                         </li>
                       </ul>
@@ -286,7 +281,7 @@ function Dropdown2(props) {
             </div>
           </div>
         </div>
-      </body>
+      </div>
     </>
   );
 }

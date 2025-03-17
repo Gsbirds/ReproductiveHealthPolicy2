@@ -21,7 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$b-v%6zh!gr7z=e3vryc%$j_2@m=qlx0d_h*t)8z=re9%=_m)m'
+from main.keys import DJANGO_SECRET_KEY
+
+SECRET_KEY = DJANGO_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -102,9 +104,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'abortion.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
-ASGI_APPLICATION = "abortion.asgi.application"
+ASGI_APPLICATION = "config.asgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
